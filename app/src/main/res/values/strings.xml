@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Weather_App</string>
     <string name="fetching_the_deets">Fetching the deets... 🌦️</string>
+    <string name="weather_icon">Weather icon</string>
 </resources>
