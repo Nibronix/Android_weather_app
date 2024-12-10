@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     // API key
     private static final String API_KEY = BuildConfig.WEATHER_API_KEY;
     private static final String BASE_URL = "https://api.weatherapi.com/v1/";
+    private static final String ICON_BASE_URL = "https://cdn.weatherapi.com/weather/64x64/";
 
     private boolean Celsius = false;
     private boolean windKph = false;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     weatherInfo.setText(weatherDetails);
 
                     // Load weather icon
-                    String iconUrl = "https:" + WeatherResponse.Current.Condition.icon;
+                    String iconUrl = "https:" + WeatherResponse.Current.Condition.icon + ".png";
                     Glide.with(MainActivity.this).load(iconUrl).into(weatherIcon);
                 } else {
                     weatherInfo.setText("Can't fetch data...");
