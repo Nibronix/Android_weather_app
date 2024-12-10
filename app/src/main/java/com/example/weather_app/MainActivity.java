@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import com.bumptech.glide.Glide;
+import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,9 +27,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Find the TextView and ImageView elements
         TextView weatherInfo = findViewById(R.id.weatherInfo);
         ImageView weatherIcon = findViewById(R.id.weatherIcon);
 
+        // Add a card layout to the main layout
+        LinearLayout mainLayout = findViewById(R.id.main);
+        CardView cardView = (CardView) getLayoutInflater().inflate(R.layout.card_layout, null);
+        mainLayout.addView(cardView);
+
+        // Create retrofit instance to fetch weather data
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -35,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         WeatherAPIService APIService = retrofit.create(WeatherAPIService.class);
 
+        // Default location
         String defaultLocation = "Los Angeles, CA";
 
         APIService.getCurrentWeather(API_KEY, defaultLocation).enqueue(new Callback<WeatherResponse>() {
@@ -50,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     String wind_type = windKph ? String.format("%d km/h", Math.round(weather.current.wind_kph))
                             : String.format("%d mph", Math.round(weather.current.wind_kph * 0.621371));
 
-
+                    // Weather details
                     String weatherDetails =
                             weather.location.name +
                             "\n " + temp_sign +
