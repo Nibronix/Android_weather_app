@@ -51,22 +51,18 @@ public class MainActivity extends AppCompatActivity {
                     String wind_type = windKph ? String.format("%d km/h", Math.round(weather.current.wind_kph))
                             : String.format("%d mph", Math.round(weather.current.wind_kph * 0.621371));
 
-                    String conditions = "";
-                    if (WeatherResponse.Current.Condition.conditionText != null) {
-                        conditions = WeatherResponse.Current.Condition.conditionText;
-                    }
 
                     String weatherDetails =
                             weather.location.name +
                             "\n " + temp_sign +
                             "\nWind: " + wind_type +
                             "\nHumidity: " + weather.current.humidity + "%" +
-                            "\n" + conditions;
+                            "\n" + weather.current.condition.text;
 
                     weatherInfo.setText(weatherDetails);
 
                     // Load weather icon
-                    String iconUrl = "https:" + WeatherResponse.Current.Condition.icon + ".png";
+                    String iconUrl = weather.current.condition.icon;
                     Glide.with(MainActivity.this).load(iconUrl).into(weatherIcon);
                 } else {
                     weatherInfo.setText("Can't fetch data...");

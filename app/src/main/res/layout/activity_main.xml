@@ -8,8 +8,8 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:id="@+id/weatherIcon"
         app:layout_constraintBottom_toTopOf="@+id/weatherInfo"
         app:layout_constraintStart_toStartOf="parent"
