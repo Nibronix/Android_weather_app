@@ -10,6 +10,8 @@ public interface UserDAO {
     @Insert
     long insert(User user);
 
-    @Query("SELECT username FROM users WHERE user_id = :userId")
-    String getUsernameById(int userId);
+    @Query("SELECT * FROM users WHERE user_id = :userId LIMIT 1")
+    User getUserById(int userId);
+
+
 }
