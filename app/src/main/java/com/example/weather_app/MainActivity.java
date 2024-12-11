@@ -45,13 +45,13 @@ public class MainActivity extends AppCompatActivity {
         userDAO = db.userDAO();
         cityDAO = db.cityDAO();
 
-        // Test user
-        User user = new User("John", "123");
+        // Create test user
+        // User user = new User("John", "123");
 
         new Thread(() -> {
-            long userId = userDAO.insert(user);
+            User user = userDAO.getUserById(1);
 
-            List<City> cities = cityDAO.getCitiesForUser(Math.toIntExact(userId));
+            List<City> cities = cityDAO.getCitiesForUser(user.getUserId());
             runOnUiThread(() -> {
                 LinearLayout mainLayout = findViewById(R.id.main);
 

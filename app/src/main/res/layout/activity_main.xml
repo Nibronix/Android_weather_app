@@ -18,35 +18,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:shadowDx="20"
-        android:shadowDy="20"
-        android:shadowRadius="5">
+        app:layout_constraintEnd_toEndOf="parent" >
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" >
 
             <ImageView
                 android:id="@+id/weatherIcon"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:contentDescription="@string/weather_icon" />
+                android:contentDescription="@string/weather_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/weatherInfo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
 
             <TextView
                 android:id="@+id/weatherInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:shadowDx="20"
-                android:shadowDy="20"
+                android:fontFamily="@font/adlam_display"
+                android:shadowDx="5"
+                android:shadowDy="5"
                 android:shadowRadius="5"
                 android:text="@string/fetching_the_deets"
                 android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
-                android:textSize="32sp" />
+                android:textSize="32sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

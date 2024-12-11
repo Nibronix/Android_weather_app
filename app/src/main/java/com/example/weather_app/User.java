@@ -19,4 +19,8 @@ public class User {
         this.username = username;
         this.password = password;
     }
+
+    public int getUserId() {
+        return user_id;
+    }
 }
