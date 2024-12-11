@@ -1,15 +1,24 @@
 package com.example.weather_app;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.room.Room;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import com.bumptech.glide.Glide;
+import com.example.weather_app.Database.AppDatabase;
+import com.example.weather_app.DAOs.CityDAO;
+import com.example.weather_app.DAOs.UserDAO;
+import android.widget.LinearLayout;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,14 +29,48 @@ public class MainActivity extends AppCompatActivity {
     private boolean Celsius = false;
     private boolean windKph = false;
 
+    private AppDatabase db;
+    private UserDAO userDAO;
+    private CityDAO cityDAO;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView weatherInfo = findViewById(R.id.weatherInfo);
-        ImageView weatherIcon = findViewById(R.id.weatherIcon);
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "app-database")
+                .fallbackToDestructiveMigration()
+                .build();
+        userDAO = db.userDAO();
+        cityDAO = db.cityDAO();
 
+        // Test user
+        User user = new User("John", "123");
+
+        new Thread(() -> {
+            long userId = userDAO.insert(user);
+
+            List<City> cities = cityDAO.getCitiesForUser(Math.toIntExact(userId));
+            runOnUiThread(() -> {
+                LinearLayout mainLayout = findViewById(R.id.main);
+
+                for (City city : cities) {
+                    addCardForCity(mainLayout, city.cityName);
+                }
+            });
+        }).start();
+    }
+
+    private void addCardForCity(LinearLayout mainLayout, String cityName) {
+        CardView cardView = (CardView) getLayoutInflater().inflate(R.layout.card_layout, mainLayout, false);
+        mainLayout.addView(cardView);
+
+        // Find the TextView and ImageView elements
+        TextView weatherInfo = cardView.findViewById(R.id.weatherInfo);
+        ImageView weatherIcon = cardView.findViewById(R.id.weatherIcon);
+
+        // Create retrofit instance to fetch weather data
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -35,22 +78,21 @@ public class MainActivity extends AppCompatActivity {
 
         WeatherAPIService APIService = retrofit.create(WeatherAPIService.class);
 
-        String defaultLocation = "Los Angeles, CA";
-
-        APIService.getCurrentWeather(API_KEY, defaultLocation).enqueue(new Callback<WeatherResponse>() {
+        APIService.getCurrentWeather(API_KEY, cityName).enqueue(new Callback<WeatherResponse>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     WeatherResponse weather = response.body();
 
                     // Check Celsius and WindKph bools. If they're false, convert to the alternative (F and mph).
-                    String temp_sign = Celsius ? String.format("%d°C", Math.round(weather.current.temp_c))
+                    @SuppressLint("DefaultLocale") String temp_sign = Celsius ? String.format("%d°C", Math.round(weather.current.temp_c))
                             : String.format("%d°F", Math.round(weather.current.temp_c * 9 / 5 + 32));
 
-                    String wind_type = windKph ? String.format("%d km/h", Math.round(weather.current.wind_kph))
+                    @SuppressLint("DefaultLocale") String wind_type = windKph ? String.format("%d km/h", Math.round(weather.current.wind_kph))
                             : String.format("%d mph", Math.round(weather.current.wind_kph * 0.621371));
 
-
+                    // Weather details
                     String weatherDetails =
                             weather.location.name +
                             "\n " + temp_sign +
