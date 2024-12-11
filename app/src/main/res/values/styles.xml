@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="adlam_display" parent="TextAppearance.AppCompat.Body1">
+        <item name="fontFamily">@font/adlam_display</item>
+        <item name="android:fontFamily">adlam_display</item>
+    </style>
+
+</resources>
