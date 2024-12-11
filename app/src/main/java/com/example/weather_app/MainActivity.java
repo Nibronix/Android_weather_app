@@ -1,5 +1,8 @@
 package com.example.weather_app;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +26,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!isUserLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+        } else {
+            setContentView(R.layout.activity_main);
+        }
+
+
         setContentView(R.layout.activity_main);
 
         TextView weatherInfo = findViewById(R.id.weatherInfo);
@@ -78,5 +89,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean isUserLoggedIn() {
+        SharedPreferences prefs = getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        String loggedInUser = prefs.getString("logged_in_user", null);
+        return loggedInUser != null;
     }
 }
