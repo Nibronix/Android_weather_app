@@ -152,6 +152,6 @@ public class LoginActivity extends AppCompatActivity {
         confirmPasswordInput.setVisibility(View.VISIBLE);
         loginButton.setVisibility(View.GONE);
         registerButton.setVisibility(View.VISIBLE);
-        toggleButton.setText("Already have an account? Log In");
+        toggleButton.setText("Already have an account? Login");
     }
 }
