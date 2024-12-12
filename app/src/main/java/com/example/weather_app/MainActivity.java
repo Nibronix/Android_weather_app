@@ -29,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String API_KEY = BuildConfig.WEATHER_API_KEY;
     private static final String BASE_URL = "https://api.weatherapi.com/v1/";
 
-    private boolean Celsius = false;
-    private boolean windKph = false;
+    public boolean Celsius = false;
+    public boolean windKph = false;
 
     private AppDatabase db;
     private UserDAO userDAO;
