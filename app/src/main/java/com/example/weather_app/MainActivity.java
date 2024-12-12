@@ -1,9 +1,11 @@
 package com.example.weather_app;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         userDAO = db.userDAO();
         cityDAO = db.cityDAO();
+
+
 
         SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
         int userId = prefs.getInt("logged_in_user_id", -1);
