@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp"
+    android:background="@drawable/background_gradient">
+
+
+    <TextView
+        android:id="@+id/settingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:fontFamily="sans-serif-medium"/>
+
+
+    <TextView
+        android:id="@+id/temperatureLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature Unit"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/settingsTitle"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <Switch
+        android:id="@+id/temperatureSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Use Celsius"
+        android:textColor="#FFFFFF"
+        android:layout_alignBaseline="@id/temperatureLabel"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="sans-serif-medium"/>
+
+
+    <TextView
+        android:id="@+id/addCityLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Manage Cities"
+        android:textSize="18sp"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/temperatureLabel"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <EditText
+        android:id="@+id/cityInput"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/addCityLabel"
+        android:layout_marginTop="15dp"
+        android:hint="Enter city name"
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:fontFamily="sans-serif-medium"
+        android:background="@android:drawable/edit_text"/>
+
+    <Button
+        android:id="@+id/addCityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add City"
+        android:layout_below="@id/cityInput"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <Button
+        android:id="@+id/deleteCityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete City"
+        android:layout_below="@id/cityInput"
+        android:layout_toEndOf="@id/addCityButton"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:fontFamily="sans-serif-medium"/>
+
+
+    <Button
+        android:id="@+id/saveSettingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Settings"
+        android:layout_below="@id/deleteCityButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-medium"/>
+
+
+    <Button
+        android:id="@+id/logoutButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:layout_below="@id/saveSettingsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"/>
+
+</RelativeLayout>

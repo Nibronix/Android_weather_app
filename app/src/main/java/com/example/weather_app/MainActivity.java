@@ -1,6 +1,7 @@
 package com.example.weather_app;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -47,11 +48,14 @@ public class MainActivity extends AppCompatActivity {
         userDAO = db.userDAO();
         cityDAO = db.cityDAO();
 
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        int userId = prefs.getInt("logged_in_user_id", -1);
+
         // Create test user
         // User user = new User("John", "123");
 
         new Thread(() -> {
-            User user = userDAO.getUserById(1);
+            User user = userDAO.getUserById(userId);
 
             if(user != null) {
                 List<City> cities = cityDAO.getCitiesForUser(user.getUserId());
