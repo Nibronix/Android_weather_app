@@ -7,11 +7,11 @@ import com.example.weather_app.User;
 
 @Dao
 public interface UserDAO {
-    @Insert
-    long insert(User user);
-
-    @Query("SELECT * FROM users WHERE user_id = :userId LIMIT 1")
+    @Query("SELECT * FROM users WHERE user_id = :userId")
     User getUserById(int userId);
+
+    @Query("SELECT * FROM users WHERE username = :username AND password = :password")
+    User getUserByUsernameandPassword(String username, String password);
 
 
 }
