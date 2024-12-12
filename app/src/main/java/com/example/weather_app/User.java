@@ -14,6 +14,7 @@ public class User {
 
     @ColumnInfo(name = "password")
     public String password;
+    private int userId;
 
     public User(String username, String password) {
         this.username = username;
@@ -22,5 +23,18 @@ public class User {
 
     public int getUserId() {
         return user_id;
+
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    // Setter for userId (needed if you're inserting a user and want to retrieve the generated ID)
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }
+
+
+

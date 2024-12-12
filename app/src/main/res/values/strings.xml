@@ -9,4 +9,5 @@
     <string name="login_activity">Login! ⛅</string>
     <string name="your_personal_weather_companion">Your Personal Weather Companion</string>
     <string name="password_login_activity">Password</string>
+    <string name="weather_icon">symbol\n</string>
 </resources>

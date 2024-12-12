@@ -1,6 +1,5 @@
 package com.example.weather_app;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordInput;
     private Button loginButton;
     private UserDAO userDAO;
-    private static final String TAG = "Cheesecake";
+    private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +47,43 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         userDAO = db.userDAO();
 
+        // Insert a default admin user if none exists
+        new Thread(() -> {
+            User existingUser = userDAO.getUserByUsername("admin");
+            if (existingUser == null) {
+                User adminUser = new User("admin", "password123");
+                userDAO.insertUser(adminUser);
+                runOnUiThread(() -> {
+                    Toast.makeText(LoginActivity.this, "Default admin user created: Username - admin, Password - password123", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "Default admin user inserted.");
+                });
+            } else {
+                runOnUiThread(() -> {
+                    Log.d(TAG, "Admin user already exists.");
+                });
+            }
+        }).start();
+
         // Handle login button click
         loginButton.setOnClickListener(view -> {
             String username = usernameInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
 
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Please enter both username and password", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             new Thread(() -> {
+                Log.d(TAG, "Attempting login with Username: " + username + ", Password: " + password);
                 User user = userDAO.getUserByUsernameandPassword(username, password);
                 runOnUiThread(() -> {
                     if (user != null) {
+                        Log.d(TAG, "User found: ID = " + user.getUserId());
                         loginUser(user.getUserId());
                         goToWeatherDashboard();
                     } else {
+                        Log.d(TAG, "Invalid username or password");
                         Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -75,13 +99,10 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "User logged in with ID: " + userId);
     }
 
-
     private boolean isUserLoggedIn() {
         SharedPreferences prefs = getSharedPreferences("user_session", Context.MODE_PRIVATE);
-        String loggedInUser = prefs.getString("logged_in_user", null);
-        return loggedInUser != null;
+        return prefs.contains("logged_in_user_id");
     }
-
 
     private void goToWeatherDashboard() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

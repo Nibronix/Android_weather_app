@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.example.weather_app'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.example.weather_app"
@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation libs.core
 
     implementation libs.appcompat
     implementation libs.material
