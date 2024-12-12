@@ -22,11 +22,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameInput, passwordInput, confirmPasswordInput;
     private Button loginButton, registerButton, toggleButton;
     private UserDAO userDAO;
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "Cheesecake";
     private boolean isRegisterMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "LoginActivity onCreate");
         super.onCreate(savedInstanceState);
 
         // Check if user is already logged in
@@ -51,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 .fallbackToDestructiveMigration()
                 .build();
         userDAO = db.userDAO();
+        Log.d(TAG, "Database and DAO initialized: db = " + db + ", userDAO = " + userDAO);
 
         // Handle login button click
         loginButton.setOnClickListener(view -> {
@@ -77,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Handle register button click
         registerButton.setOnClickListener(view -> {
+            Log.d(TAG, "Register button clicked");
             String username = usernameInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
             String confirmPassword = confirmPasswordInput.getText().toString().trim();
@@ -92,12 +95,21 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             new Thread(() -> {
+                Log.d(TAG, "Attempting to register user: " + username);
+
                 User existingUser = userDAO.getUserByUsername(username);
+                Log.d(TAG, "Existing user: " + existingUser);
+
                 if (existingUser != null) {
+                    Log.d(TAG, "Username already exists: " + username);
                     runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Username already exists", Toast.LENGTH_SHORT).show());
+
                 } else {
+                    Log.d(TAG, "Registering new user: " + username);
+
                     User newUser = new User(username, password);
                     userDAO.insertUser(newUser);
+
                     runOnUiThread(() -> {
                         Toast.makeText(LoginActivity.this, "Registration successful! Please log in.", Toast.LENGTH_SHORT).show();
                         switchToLoginMode();

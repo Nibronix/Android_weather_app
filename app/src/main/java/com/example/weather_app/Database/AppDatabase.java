@@ -9,7 +9,7 @@ import com.example.weather_app.DAOs.UserDAO;
 import com.example.weather_app.DAOs.SettingsDAO;
 import com.example.weather_app.User;
 
-@Database(entities = {User.class, City.class, Settings.class}, version = 1)
+@Database(entities = {User.class, City.class, Settings.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();
     public abstract CityDAO cityDAO();
