@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,13 +35,20 @@ public class MainActivity extends AppCompatActivity {
     private AppDatabase db;
     private UserDAO userDAO;
     private CityDAO cityDAO;
+    private static final String TAG = "Oreo";
+    private boolean isNavigating = false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate called");
+
         super.onCreate(savedInstanceState);
-        if (!isUserLoggedIn()) {
-            startActivity(new Intent(this, LoginActivity.class));
+        if (!isUserLoggedIn() && !isNavigating) {
+            isNavigating = true;
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
             return;
         }
@@ -139,8 +147,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isUserLoggedIn() {
         SharedPreferences prefs = getSharedPreferences("user_session", Context.MODE_PRIVATE);
-        String loggedInUser = prefs.getString("logged_in_user", null);
-        return loggedInUser != null;
+        int userId = prefs.getInt("logged_in_user_id", -1);
+        Log.d(TAG, "isUserLoggedIn: userId = " + userId);
+        return userId != -1;
     }
 
     private int getLoggedInUserId() {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordInput;
     private Button loginButton;
     private UserDAO userDAO;
+    private static final String TAG = "Cheesecake";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                 User user = userDAO.getUserByUsernameandPassword(username, password);
                 runOnUiThread(() -> {
                     if (user != null) {
-                        loginUser(String.valueOf(user.getUserId()));
+                        loginUser(user.getUserId());
                         goToWeatherDashboard();
                     } else {
                         Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
@@ -65,11 +67,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loginUser(String username) {
+    private void loginUser(int userId) {
         SharedPreferences prefs = getSharedPreferences("user_session", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString("logged_in_user", username);
+        editor.putInt("logged_in_user_id", userId);
         editor.apply();
+        Log.d(TAG, "User logged in with ID: " + userId);
     }
 
 
@@ -82,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void goToWeatherDashboard() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
