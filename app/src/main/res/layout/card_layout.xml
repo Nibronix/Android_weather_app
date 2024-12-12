@@ -5,11 +5,10 @@
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
     app:cardCornerRadius="16dp"
-    app:cardElevation="8dp"
-    app:cardBackgroundColor="#020d1a"
-    android:background="@drawable/rounded_border"
-    android:paddingTop="16dp"
-    android:paddingBottom="16dp">
+    app:cardElevation="20dp"
+    app:cardBackgroundColor="#1A1F3C"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
