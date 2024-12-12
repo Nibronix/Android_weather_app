@@ -8,9 +8,6 @@ import java.util.List;
 
 @Dao
 public interface CityDAO {
-    @Insert
-    void insert(City city);
-
     @Query("SELECT * FROM cities WHERE user_id = :userId")
     List<City> getCitiesForUser(int userId);
 }

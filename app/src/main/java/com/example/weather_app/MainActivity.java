@@ -20,7 +20,6 @@ import com.example.weather_app.Database.AppDatabase;
 import com.example.weather_app.DAOs.CityDAO;
 import com.example.weather_app.DAOs.UserDAO;
 import android.widget.LinearLayout;
-
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,10 +42,8 @@ public class MainActivity extends AppCompatActivity {
         if (!isUserLoggedIn()) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
-        } else {
-            setContentView(R.layout.activity_main);
+            return;
         }
-
 
         setContentView(R.layout.activity_main);
 
@@ -56,20 +53,29 @@ public class MainActivity extends AppCompatActivity {
         userDAO = db.userDAO();
         cityDAO = db.cityDAO();
 
-        // Create test user
+        // Create test user. Debug only.
         // User user = new User("John", "123");
 
+        int userId = getLoggedInUserId();
+
         new Thread(() -> {
-            User user = userDAO.getUserById(1);
+            User user = userDAO.getUserById(userId);
 
-            List<City> cities = cityDAO.getCitiesForUser(user.getUserId());
-            runOnUiThread(() -> {
-                LinearLayout mainLayout = findViewById(R.id.main);
+            if (user != null) {
+                List<City> cities = cityDAO.getCitiesForUser(user.getUserId());
+                runOnUiThread(() -> {
+                    LinearLayout mainLayout = findViewById(R.id.main);
 
-                for (City city : cities) {
-                    addCardForCity(mainLayout, city.cityName);
-                }
-            });
+                    for (City city : cities) {
+                        addCardForCity(mainLayout, city.cityName);
+                    }
+                });
+            } else {
+                runOnUiThread(() -> {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                });
+            }
         }).start();
     }
 
@@ -113,9 +119,11 @@ public class MainActivity extends AppCompatActivity {
 
                     weatherInfo.setText(weatherDetails);
 
-                    // Load weather icon
-                    String iconUrl = "https:" + weather.current.condition.icon;
-                    Glide.with(MainActivity.this).load(iconUrl).into(weatherIcon);
+
+                    if (!isDestroyed() && !isFinishing()) {
+                        String iconUrl = "https:" + weather.current.condition.icon;
+                        Glide.with(MainActivity.this).load(iconUrl).into(weatherIcon);
+                    }
                 } else {
                     weatherInfo.setText("Can't fetch data...");
                 }
@@ -133,5 +141,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("user_session", Context.MODE_PRIVATE);
         String loggedInUser = prefs.getString("logged_in_user", null);
         return loggedInUser != null;
+    }
+
+    private int getLoggedInUserId() {
+        SharedPreferences prefs = getSharedPreferences("user_session", Context.MODE_PRIVATE);
+        return prefs.getInt("logged_in_user_id", -1);
     }
 }

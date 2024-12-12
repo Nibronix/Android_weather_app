@@ -10,12 +10,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
+import com.example.weather_app.Database.AppDatabase;
+import com.example.weather_app.DAOs.UserDAO;
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText usernameInput;
     private EditText passwordInput;
     private Button loginButton;
+    private UserDAO userDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,27 +40,30 @@ public class LoginActivity extends AppCompatActivity {
         passwordInput = findViewById(R.id.passwordInput);
         loginButton = findViewById(R.id.loginButton);
 
+        // Initialize database and DAO
+        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "app-database")
+                .fallbackToDestructiveMigration()
+                .build();
+        userDAO = db.userDAO();
+
         // Handle login button click
         loginButton.setOnClickListener(view -> {
             String username = usernameInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
 
-            if (verifyUser(username, password)) {
-                loginUser(username);
-                Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                goToWeatherDashboard();
-            } else {
-                Toast.makeText(LoginActivity.this, "Invalid credentials, please try again.", Toast.LENGTH_SHORT).show();
-            }
+            new Thread(() -> {
+                User user = userDAO.getUserByUsernameandPassword(username, password);
+                runOnUiThread(() -> {
+                    if (user != null) {
+                        loginUser(String.valueOf(user.getUserId()));
+                        goToWeatherDashboard();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }).start();
         });
     }
-
-
-    private boolean verifyUser(String username, String password) {
-        // Example: Accept login if username is "user" and password is "pass123"
-        return ("user".equals(username) && "pass123".equals(password));
-    }
-
 
     private void loginUser(String username) {
         SharedPreferences prefs = getSharedPreferences("user_session", Context.MODE_PRIVATE);
