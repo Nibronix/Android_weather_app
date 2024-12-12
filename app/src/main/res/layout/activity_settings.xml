@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
     android:background="@drawable/background_gradient">
-
 
     <TextView
         android:id="@+id/settingsTitle"
@@ -17,7 +17,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:fontFamily="sans-serif-medium"/>
-
 
     <TextView
         android:id="@+id/temperatureLabel"
@@ -39,7 +38,6 @@
         android:layout_alignBaseline="@id/temperatureLabel"
         android:layout_alignParentEnd="true"
         android:fontFamily="sans-serif-medium"/>
-
 
     <TextView
         android:id="@+id/addCityLabel"
@@ -66,38 +64,40 @@
         android:fontFamily="sans-serif-medium"
         android:background="@drawable/edit_text_background"/>
 
-    <Button
-        android:id="@+id/addCityButton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/cityButtonsLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add City"
         android:layout_below="@id/cityInput"
-        android:layout_alignParentStart="true"
         android:layout_marginTop="15dp"
-        android:fontFamily="sans-serif-medium"/>
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/deleteCityButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete City"
-        android:layout_below="@id/cityInput"
-        android:layout_toEndOf="@id/addCityButton"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="20dp"
-        android:fontFamily="sans-serif-medium"/>
+        <Button
+            android:id="@+id/deleteCityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete City"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="sans-serif-medium"/>
 
+        <Button
+            android:id="@+id/addCityButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add City"
+            android:fontFamily="sans-serif-medium"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/saveSettingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save Settings"
-        android:layout_below="@id/deleteCityButton"
+        android:layout_below="@id/cityButtonsLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:fontFamily="sans-serif-medium"/>
-
 
     <Button
         android:id="@+id/logoutButton"
@@ -107,6 +107,15 @@
         android:layout_below="@id/saveSettingsButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:fontFamily="sans-serif-medium"/>
 
 </RelativeLayout>
