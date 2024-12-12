@@ -23,7 +23,6 @@
         android:layout_height="48dp"
         android:layout_below="@id/welcomeTitle"
         android:layout_marginTop="30dp"
-        android:autofillHints="enter username"
         android:hint="@string/usernamelogin"
         android:inputType="textPersonName"
         android:padding="10dp"
@@ -37,7 +36,6 @@
         android:layout_height="48dp"
         android:layout_below="@id/usernameInput"
         android:layout_marginTop="15dp"
-        android:autofillHints="enter password"
         android:hint="@string/password_login_activity"
         android:inputType="textPassword"
         android:padding="10dp"
@@ -45,28 +43,61 @@
         android:textColorHint="#FFFFFF"
         android:fontFamily="sans-serif-medium"/>
 
+    <EditText
+        android:id="@+id/confirmPasswordInput"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/passwordInput"
+        android:layout_marginTop="15dp"
+        android:hint="Confirm password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:fontFamily="sans-serif-medium"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/welcomeSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/your_personal_weather_companion"
-        android:textSize="18sp"
+        android:textSize="11sp"
         android:layout_below="@id/passwordInput"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:textColor="#FFFFFF"
         android:fontFamily="sans-serif-medium"/>
-
-
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_activity"
-        android:layout_below="@id/welcomeSubtitle"
+        android:layout_below="@id/passwordInput"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        android:layout_below="@id/confirmPasswordInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:fontFamily="sans-serif-medium"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Don't have an account? Register"
+        android:layout_below="@id/loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-medium"/>
 
 </RelativeLayout>

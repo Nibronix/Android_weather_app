@@ -1,3 +1,4 @@
+
 package com.example.weather_app;
 
 import android.content.Context;
@@ -5,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -17,19 +19,19 @@ import com.example.weather_app.DAOs.UserDAO;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText usernameInput;
-    private EditText passwordInput;
-    private Button loginButton;
+    private EditText usernameInput, passwordInput, confirmPasswordInput;
+    private Button loginButton, registerButton, toggleButton;
     private UserDAO userDAO;
     private static final String TAG = "LoginActivity";
+    private boolean isRegisterMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // If user is already logged in, skip the login page
+        // Check if user is already logged in
         if (isUserLoggedIn()) {
-            goToWeatherDashboard();
+            goToMainActivity();
             finish();
             return;
         }
@@ -39,30 +41,16 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize views
         usernameInput = findViewById(R.id.usernameInput);
         passwordInput = findViewById(R.id.passwordInput);
+        confirmPasswordInput = findViewById(R.id.confirmPasswordInput);
         loginButton = findViewById(R.id.loginButton);
+        registerButton = findViewById(R.id.registerButton);
+        toggleButton = findViewById(R.id.toggleButton);
 
         // Initialize database and DAO
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "app-database")
                 .fallbackToDestructiveMigration()
                 .build();
         userDAO = db.userDAO();
-
-        // Insert a default admin user if none exists
-        new Thread(() -> {
-            User existingUser = userDAO.getUserByUsername("admin");
-            if (existingUser == null) {
-                User adminUser = new User("admin", "password123");
-                userDAO.insertUser(adminUser);
-                runOnUiThread(() -> {
-                    Toast.makeText(LoginActivity.this, "Default admin user created: Username - admin, Password - password123", Toast.LENGTH_LONG).show();
-                    Log.d(TAG, "Default admin user inserted.");
-                });
-            } else {
-                runOnUiThread(() -> {
-                    Log.d(TAG, "Admin user already exists.");
-                });
-            }
-        }).start();
 
         // Handle login button click
         loginButton.setOnClickListener(view -> {
@@ -75,20 +63,60 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             new Thread(() -> {
-                Log.d(TAG, "Attempting login with Username: " + username + ", Password: " + password);
                 User user = userDAO.getUserByUsernameandPassword(username, password);
                 runOnUiThread(() -> {
                     if (user != null) {
-                        Log.d(TAG, "User found: ID = " + user.getUserId());
                         loginUser(user.getUserId());
-                        goToWeatherDashboard();
+                        goToMainActivity();
                     } else {
-                        Log.d(TAG, "Invalid username or password");
                         Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                     }
                 });
             }).start();
         });
+
+        // Handle register button click
+        registerButton.setOnClickListener(view -> {
+            String username = usernameInput.getText().toString().trim();
+            String password = passwordInput.getText().toString().trim();
+            String confirmPassword = confirmPasswordInput.getText().toString().trim();
+
+            if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!password.equals(confirmPassword)) {
+                Toast.makeText(LoginActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            new Thread(() -> {
+                User existingUser = userDAO.getUserByUsername(username);
+                if (existingUser != null) {
+                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Username already exists", Toast.LENGTH_SHORT).show());
+                } else {
+                    User newUser = new User(username, password);
+                    userDAO.insertUser(newUser);
+                    runOnUiThread(() -> {
+                        Toast.makeText(LoginActivity.this, "Registration successful! Please log in.", Toast.LENGTH_SHORT).show();
+                        switchToLoginMode();
+                    });
+                }
+            }).start();
+        });
+
+        // Handle toggle button click to switch between login and registration
+        toggleButton.setOnClickListener(view -> {
+            if (isRegisterMode) {
+                switchToLoginMode();
+            } else {
+                switchToRegisterMode();
+            }
+        });
+
+        // Default to login mode
+        switchToLoginMode();
     }
 
     private void loginUser(int userId) {
@@ -104,10 +132,26 @@ public class LoginActivity extends AppCompatActivity {
         return prefs.contains("logged_in_user_id");
     }
 
-    private void goToWeatherDashboard() {
+    private void goToMainActivity() {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    private void switchToLoginMode() {
+        isRegisterMode = false;
+        confirmPasswordInput.setVisibility(View.GONE);
+        loginButton.setVisibility(View.VISIBLE);
+        registerButton.setVisibility(View.GONE);
+        toggleButton.setText("Don't have an account? Register");
+    }
+
+    private void switchToRegisterMode() {
+        isRegisterMode = true;
+        confirmPasswordInput.setVisibility(View.VISIBLE);
+        loginButton.setVisibility(View.GONE);
+        registerButton.setVisibility(View.VISIBLE);
+        toggleButton.setText("Already have an account? Log In");
     }
 }
