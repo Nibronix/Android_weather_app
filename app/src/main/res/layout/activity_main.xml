@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/main"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@drawable/background_gradient">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    </LinearLayout>
-</ScrollView>
+        <LinearLayout
+            android:id="@+id/main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/background_gradient">
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/settingsFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="Settings button"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="16dp"
+        app:fabCustomSize="64dp"
+        app:backgroundTint="#FFFFFF"
+        app:srcCompat="@drawable/baseline_api_24"
+        app:maxImageSize="60dp"
+        android:tint="@color/white" />
+
+
+
+</FrameLayout>

@@ -64,7 +64,7 @@
         android:textColor="#FFFFFF"
         android:textColorHint="#FFFFFF"
         android:fontFamily="sans-serif-medium"
-        android:background="@android:drawable/edit_text"/>
+        android:background="@drawable/edit_text_background"/>
 
     <Button
         android:id="@+id/addCityButton"

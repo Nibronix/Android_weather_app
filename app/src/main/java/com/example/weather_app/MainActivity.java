@@ -20,6 +20,8 @@ import com.bumptech.glide.Glide;
 import com.example.weather_app.Database.AppDatabase;
 import com.example.weather_app.DAOs.CityDAO;
 import com.example.weather_app.DAOs.UserDAO;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -50,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
         userDAO = db.userDAO();
         cityDAO = db.cityDAO();
 
-
+        FloatingActionButton settingsFab = findViewById(R.id.settingsFab);
+        settingsFab.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
 
         SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
         int userId = prefs.getInt("logged_in_user_id", -1);
