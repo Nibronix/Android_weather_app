@@ -2,4 +2,12 @@
     <string name="app_name">Weather_App</string>
     <string name="fetching_the_deets">Fetching the deets... 🌦️</string>
     <string name="weather_icon">Weather icon</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="usernamelogin">Username</string>
+    <string name="welcome_to_weatherapp">☀️ Welcome to WeatherApp! 🌦️</string>
+    <string name="login_activity">Login! ⛅</string>
+    <string name="your_personal_weather_companion">Your Personal Weather Companion</string>
+    <string name="password_login_activity">Password</string>
 </resources>
