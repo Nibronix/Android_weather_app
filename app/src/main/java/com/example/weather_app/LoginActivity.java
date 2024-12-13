@@ -20,11 +20,15 @@ import com.example.weather_app.DAOs.UserDAO;
 
 public class LoginActivity extends AppCompatActivity {
 
+
     private EditText usernameInput, passwordInput, confirmPasswordInput;
     private Button loginButton, registerButton, toggleButton;
     private UserDAO userDAO;
     private static final String TAG = "Cheesecake";
     private boolean isRegisterMode = false;
+
+    private static final  String ADMIN_USERNAME = "admin"
+    private static final String ADMIN_PASSWORD ='password123'
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,18 +69,26 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            new Thread(() -> {
-                User user = userDAO.getUserByUsernameandPassword(username, password);
-                runOnUiThread(() -> {
-                    if (user != null) {
-                        loginUser(user.getUserId());
-                        goToMainActivity();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }).start();
+            if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)) {
+                // Admin login
+                loginUser(-1);
+                goToAdminDashboard();
+            } else {
+                // Regular user login
+                new Thread(() -> {
+                    User user = userDAO.getUserByUsernameandPassword(username, password);
+                    runOnUiThread(() -> {
+                        if (user != null) {
+                            loginUser(user.getUserId());
+                            goToMainActivity();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }).start();
+            }
         });
+
 
         // Handle register button click
         registerButton.setOnClickListener(view -> {
