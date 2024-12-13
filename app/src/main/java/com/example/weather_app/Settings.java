@@ -12,13 +12,15 @@ public class Settings {
 
     @ColumnInfo(name = "is_celsius")
     private boolean isCelsius; // true for Celsius, false for Fahrenheit
+    private boolean windKPH;
 
     @ColumnInfo(name = "selected_cities")
     private String selectedCities; // Comma-separated list of city names
 
 
-    public Settings(boolean isCelsius, String selectedCities) {
+    public Settings(boolean isCelsius, boolean windKPH, String selectedCities) {
         this.isCelsius = isCelsius;
+        this.windKPH = windKPH;
         this.selectedCities = selectedCities;
     }
 
@@ -37,6 +39,14 @@ public class Settings {
 
     public void setCelsius(boolean celsius) {
         isCelsius = celsius;
+    }
+
+    public boolean isWindKPH() {
+        return windKPH;
+    }
+
+    public void setWindKPH(boolean windKPH) {
+        this.windKPH = windKPH;
     }
 
     public String getSelectedCities() {

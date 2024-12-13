@@ -105,7 +105,7 @@
         android:id="@+id/saveSettingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Save Settings"
+        android:text="Dashboard"
         android:layout_below="@id/cityButtonsLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
@@ -119,15 +119,6 @@
         android:layout_below="@id/saveSettingsButton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:fontFamily="sans-serif-medium"/>
-
-    <Button
-        android:id="@+id/cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
         android:fontFamily="sans-serif-medium"/>
 
 </RelativeLayout>

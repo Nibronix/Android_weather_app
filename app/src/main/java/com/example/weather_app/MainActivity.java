@@ -21,6 +21,7 @@ import com.example.weather_app.Database.AppDatabase;
 import com.example.weather_app.DAOs.CityDAO;
 import com.example.weather_app.DAOs.UserDAO;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.weather_app.DAOs.SettingsDAO;
 
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -33,12 +34,13 @@ public class MainActivity extends AppCompatActivity {
     private static final String API_KEY = BuildConfig.WEATHER_API_KEY;
     private static final String BASE_URL = "https://api.weatherapi.com/v1/";
 
-    private boolean Celsius = false;
-    private boolean windKph = false;
+    public boolean Celsius = false;
+    public boolean windKph = false;
 
     private AppDatabase db;
     private UserDAO userDAO;
     private CityDAO cityDAO;
+    private SettingsDAO settingsDAO;
 
 
     @Override
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         userDAO = db.userDAO();
         cityDAO = db.cityDAO();
+        settingsDAO = db.settingsDAO();
 
         FloatingActionButton settingsFab = findViewById(R.id.settingsFab);
         settingsFab.setOnClickListener(view -> {
@@ -58,31 +61,31 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
-        int userId = prefs.getInt("logged_in_user_id", -1);
-
-        // Create test user
-        // User user = new User("John", "123");
-
         new Thread(() -> {
+            Settings settings = settingsDAO.getCurrentSettings();
+            if (settings != null) {
+                Celsius = settings.isCelsius();
+                windKph = settings.isWindKPH();
+            }
+
+            SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+            int userId = prefs.getInt("logged_in_user_id", -1);
             User user = userDAO.getUserById(userId);
 
-            if(user != null) {
+            if (user != null) {
                 List<City> cities = cityDAO.getCitiesForUser(user.getUserId());
                 runOnUiThread(() -> {
                     LinearLayout mainLayout = findViewById(R.id.main);
-
                     for (City city : cities) {
                         addCardForCity(mainLayout, city.cityName);
                     }
                 });
-            }else{
+            } else {
                 runOnUiThread(() -> {
                     Toast.makeText(MainActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
-                    Log.e("MainActivity", "User with ID 1 not found in the database.");
+                    Log.e("MainActivity", "User with ID not found in the database.");
                 });
             }
-
         }).start();
     }
 
@@ -141,4 +144,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 }
