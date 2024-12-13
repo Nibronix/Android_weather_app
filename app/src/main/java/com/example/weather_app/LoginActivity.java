@@ -27,8 +27,8 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "Cheesecake";
     private boolean isRegisterMode = false;
 
-    private static final  String ADMIN_USERNAME = "admin"
-    private static final String ADMIN_PASSWORD ='password123'
+    private static final  String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD ="password";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
