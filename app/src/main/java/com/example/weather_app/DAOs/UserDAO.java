@@ -19,10 +19,9 @@ public interface UserDAO {
     User getUserByUsername(String username);
 
     @Insert
-    void insertUser(User user);
+    long insertUser(User user);
 
     @Query("SELECT * FROM users")
     List<User> getAllUsers();
-
 
 }

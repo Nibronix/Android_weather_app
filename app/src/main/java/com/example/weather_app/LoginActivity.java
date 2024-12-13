@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.example.weather_app.DAOs.CityDAO;
 import com.example.weather_app.Database.AppDatabase;
 import com.example.weather_app.DAOs.UserDAO;
 
@@ -109,6 +110,13 @@ public class LoginActivity extends AppCompatActivity {
 
                     User newUser = new User(username, password);
                     userDAO.insertUser(newUser);
+                    User insertedUser = userDAO.getUserByUsername(username);
+                    int newUserId = insertedUser.getUserId();
+
+                    // Add the default city
+                    CityDAO cityDAO = db.cityDAO();
+                    City seasideCity = new City("Seaside", (int)newUserId);
+                    cityDAO.insertCity(seasideCity);
 
                     runOnUiThread(() -> {
                         Toast.makeText(LoginActivity.this, "Registration successful! Please log in.", Toast.LENGTH_SHORT).show();
