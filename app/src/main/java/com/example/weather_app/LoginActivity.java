@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
             if (username.equals(ADMIN_USERNAME) && password.equals(ADMIN_PASSWORD)) {
                 // Admin login
                 loginUser(-1);
-                goToAdminDashboard();
+                goToAdminDashboard(true);
             } else {
                 // Regular user login
                 new Thread(() -> {
@@ -189,10 +189,11 @@ public class LoginActivity extends AppCompatActivity {
         toggleButton.setText("Already have an account? Login");
     }
 
-    private void goToAdminDashboard() {
+    private void goToAdminDashboard(boolean isAdmin) {
         Toast.makeText(this, "Admin logged in. Navigate to admin dashboard.", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(LoginActivity.this,SettingsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("isAdmin",isAdmin);
         startActivity(intent);
         finish();
     }
