@@ -7,6 +7,21 @@
     android:background="@drawable/background_gradient">
 
     <TextView
+        android:id = "@+id/adminTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Admin DashBoard"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        android:layout_marginTop="50dp"
+        android:fontFamily="sans-serif-medium"/>
+
+
+
+    <TextView
         android:id="@+id/settingsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
