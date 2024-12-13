@@ -24,6 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText cityInput;
     private Button addCityButton, deleteCityButton, saveSettingsButton, logoutButton;
     private SettingsDAO settingsDAO;
+    private AppDatabase db;
     private CityDAO cityDAO;
     private Settings currentSettings;
     private int userId;

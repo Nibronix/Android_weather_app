@@ -11,7 +11,7 @@ public class Settings {
     private int id;
 
     @ColumnInfo(name = "is_celsius")
-    private boolean isCelsius; // true for Celsius, false for Fahrenheit
+    private boolean isCelsius;
     private boolean windKPH;
 
     @ColumnInfo(name = "selected_cities")
@@ -29,7 +29,7 @@ public class Settings {
         return id;
     }
 
-    public void setId(int id) { // Room requires setter for primary key if autoGenerate is true
+    public void setId(int id) {
         this.id = id;
     }
 
