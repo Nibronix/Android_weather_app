@@ -16,6 +16,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "WEATHER_API_KEY", "\"${WEATHER_API_KEY}\""
+        testApplicationId "com.example.weather_app.test"
+
     }
 
     buildFeatures {
@@ -43,6 +45,7 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.firebase.firestore
     testImplementation libs.junit
+    testImplementation libs.test.core
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -55,5 +58,9 @@ dependencies {
     implementation "androidx.room:room-ktx:2.5.0"
     annotationProcessor "androidx.room:room-compiler:2.5.0"
     implementation 'com.google.android.material:material:1.12.0'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:3.11.2'
+    testImplementation 'org.robolectric:robolectric:4.14.1'
+
 
 }

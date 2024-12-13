@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void addCardForCity(LinearLayout mainLayout, String cityName) {
+    void addCardForCity(LinearLayout mainLayout, String cityName) {
         CardView cardView = (CardView) getLayoutInflater().inflate(R.layout.card_layout, mainLayout, false);
         mainLayout.addView(cardView);
 
