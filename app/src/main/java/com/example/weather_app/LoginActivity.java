@@ -151,6 +151,8 @@ public class LoginActivity extends AppCompatActivity {
         switchToLoginMode();
     }
 
+
+
     private void loginUser(int userId) {
         SharedPreferences prefs = getSharedPreferences("user_session", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
@@ -185,5 +187,13 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setVisibility(View.GONE);
         registerButton.setVisibility(View.VISIBLE);
         toggleButton.setText("Already have an account? Login");
+    }
+
+    private void goToAdminDashboard() {
+        Toast.makeText(this, "Admin logged in. Navigate to admin dashboard.", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(LoginActivity.this,SettingsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
