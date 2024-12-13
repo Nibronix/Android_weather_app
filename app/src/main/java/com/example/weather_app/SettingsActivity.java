@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +31,11 @@ public class SettingsActivity extends AppCompatActivity {
     private Settings currentSettings;
     private int userId;
 
+    private TextView adminTitle;
+    private TextView settingsTitle;
+
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         userId = getIntent().getIntExtra("userId", -1);
+        boolean isAdmin = getIntent().getBooleanExtra("isAdmin", false);
 
         temperatureSwitch = findViewById(R.id.temperatureSwitch);
         cityInput = findViewById(R.id.cityInput);
@@ -44,6 +52,19 @@ public class SettingsActivity extends AppCompatActivity {
         saveSettingsButton = findViewById(R.id.saveSettingsButton);
         logoutButton = findViewById(R.id.logoutButton);
         windSwitch = findViewById(R.id.windSwitch);
+        
+        adminTitle = findViewById(R.id.adminTitle);
+        settingsTitle = findViewById(R.id.settingsTitle);
+        if (isAdmin){
+            adminTitle.setVisibility(View.VISIBLE);
+            settingsTitle.setVisibility(View.GONE);
+        }else{
+            adminTitle.setVisibility(View.GONE);
+            settingsTitle.setVisibility(View.GONE);
+        }
+
+
+
 
         AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "app-database")
                 .fallbackToDestructiveMigration()
